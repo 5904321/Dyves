@@ -6,15 +6,15 @@
   include 'connect.php';
   include 'block.php';
 
-  $voornaam  = mysql_real_escape_string(strip_tags($_POST['voornaam']));
-  $achternaam = mysql_real_escape_string(strip_tags($_POST['achternaam']));
-  $woonplaats = mysql_real_escape_string(strip_tags($_POST['woonplaats']));
-  $geboortedatum = mysql_real_escape_string($_POST['geboortedatum']);
-  $gebruiker = mysql_real_escape_string(strip_tags(trim($_POST['gebruikersnaam'])));
-  $email = mysql_real_escape_string(strip_tags($_POST['email']));
-  $gender = mysql_real_escape_string(strip_tags($_POST['gender']));
-  $wachtwoord = mysql_real_escape_string(strip_tags($_POST['password1']));
-  $wachtwoord2 = mysql_real_escape_string(strip_tags($_POST['password2']));
+    $voornaam  = isset($_POST['voornaam']) ? $conn->real_escape_string(strip_tags($_POST['voornaam'])) : '';
+    $achternaam = isset($_POST['achternaam']) ? $conn->real_escape_string(strip_tags($_POST['achternaam'])) : '';
+    $woonplaats = isset($_POST['woonplaats']) ? $conn->real_escape_string(strip_tags($_POST['woonplaats'])) : '';
+    $geboortedatum = isset($_POST['geboortedatum']) ? $conn->real_escape_string($_POST['geboortedatum']) : '';
+    $gebruiker = isset($_POST['gebruikersnaam']) ? $conn->real_escape_string(strip_tags(trim($_POST['gebruikersnaam']))) : '';
+    $email = isset($_POST['email']) ? $conn->real_escape_string(strip_tags($_POST['email'])) : '';
+    $gender = isset($_POST['gender']) ? $conn->real_escape_string(strip_tags($_POST['gender'])) : '';
+    $wachtwoord = isset($_POST['password1']) ? $conn->real_escape_string(strip_tags($_POST['password1'])) : '';
+    $wachtwoord2 = isset($_POST['password2']) ? $conn->real_escape_string(strip_tags($_POST['password2'])) : '';
   $checkAR = [$voornaam,$achternaam,$woonplaats,$geboortedatum,$gebruiker,$email,$gender,$wachtwoord,$wachtwoord2];
 
   $goed = true;
@@ -117,7 +117,7 @@
       reloadPost();
   }
 
-  $sumbmited = $_SESSION['sumbmited'];
-  $foutMelding = $_SESSION['fout'];
+    $sumbmited = isset($_SESSION['sumbmited']) ? $_SESSION['sumbmited'] : ["","","","","",""];
+    $foutMelding = isset($_SESSION['fout']) ? $_SESSION['fout'] : [0,0,0,0,0,0,0,0,0,0,0,0];
  ?>
  

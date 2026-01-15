@@ -11,14 +11,22 @@
 
     // default poll id
     $currentPoll = 1;
-    // try to read current poll id from settings table (defensive)
-    $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
-    $result = @$conn->query($sql);
-    if ($result && $result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
+      // try to read current poll id from settings table (defensive)
+      $currentPoll = 1;
+      $hasSettings = false;
+      $resCheck = $conn->query("SHOW TABLES LIKE 'settings'");
+      if ($resCheck && $resCheck->num_rows > 0) {
+        $hasSettings = true;
       }
-    }
+      if ($hasSettings) {
+        $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
+        $result = $conn->query($sql);
+        if ($result && $result->num_rows > 0) {
+          while($row = $result->fetch_assoc()) {
+            $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
+          }
+        }
+      }
 
     try {
       $sql = "SELECT Naam,Status,Vragen,Antwoorden FROM `poll` WHERE Id='$currentPoll' LIMIT 1;";
@@ -46,6 +54,37 @@
       $VragenPoll = [];
       $AntwoordenPoll = [];
     }
+      // fetch poll row if poll table exists
+      $hasPoll = false;
+      $resCheck2 = $conn->query("SHOW TABLES LIKE 'poll'");
+      if ($resCheck2 && $resCheck2->num_rows > 0) {
+          $hasPoll = true;
+      }
+      if ($hasPoll) {
+          $sql = "SELECT Naam,Status,Vragen,Antwoorden FROM `poll` WHERE Id='$currentPoll' LIMIT 1;";
+          $result = $conn->query($sql);
+          if ($result && $result->num_rows > 0) {
+              while($row = $result->fetch_assoc()) {
+                  $vraagPoll = isset($row['Naam']) ? $row['Naam'] : '';
+                  $statusPoll = isset($row['Status']) ? $row['Status'] : 0;
+                  $VragenPoll = @unserialize($row['Vragen']);
+                  if ($VragenPoll === false || !is_array($VragenPoll)) { $VragenPoll = []; }
+                  $AntwoordenPoll = @unserialize($row['Antwoorden']);
+                  if ($AntwoordenPoll === false || !is_array($AntwoordenPoll)) { $AntwoordenPoll = []; }
+              }
+          } else {
+              // no poll row found, defaults
+              $vraagPoll = '';
+              $statusPoll = 0;
+              $VragenPoll = [];
+              $AntwoordenPoll = [];
+          }
+      } else {
+          $vraagPoll = '';
+          $statusPoll = 0;
+          $VragenPoll = [];
+          $AntwoordenPoll = [];
+      }
     $score = [0,0,0,0];
     if (!is_array($AntwoordenPoll)) { $AntwoordenPoll = []; }
     for($i=0; $i<=count($AntwoordenPoll)-1; $i++){
