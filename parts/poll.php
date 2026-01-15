@@ -12,17 +12,12 @@
     // default poll id
     $currentPoll = 1;
     // try to read current poll id from settings table (defensive)
-    try {
-        $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
-        $result = $conn->query($sql);
-        if ($result && $result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
-            }
-        }
-    } catch (mysqli_sql_exception $e) {
-        // settings table missing or query failed; keep default poll id
-        $currentPoll = 1;
+    $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
+    $result = @$conn->query($sql);
+    if ($result && $result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+        $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
+      }
     }
 
     try {

@@ -51,6 +51,9 @@
     session_start();
 
     $current = isset($_SESSION["nu"]) ? $_SESSION["nu"] : "";
+    // $_SESSION['Waar'] = 'hoofdmenu';
+    // echo $_SESSION['Waar'];
+
     if(isset($_POST['Menu'])){
         $_SESSION['Waar'] = "hoofdmenu";
         reloadPost();
@@ -126,10 +129,14 @@
         $_SESSION['Maand'] = 5;
         reloadPost();
     }
+
+
     if(!strlen($_SESSION['Waar']) > 0){
         $_SESSION['Waar'] = "hoofdmenu";
         reloadPost();
     }
+
+
     include "paginas/".$_SESSION['Waar'].".php";
 
   ?>
