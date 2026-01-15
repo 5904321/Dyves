@@ -12,23 +12,52 @@
     // default poll id
     $currentPoll = 1;
     // try to read current poll id from settings table (defensive)
+<<<<<<< HEAD
+    try {
+      $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
+      $result = $conn->query($sql);
+      if ($result && $result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
+        }
+=======
     $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
     $result = @$conn->query($sql);
     if ($result && $result->num_rows > 0) {
       while($row = $result->fetch_assoc()) {
         $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
+>>>>>>> 5c2be84becbcb4a5aa0aa91a515b5542b2744e58
       }
+    } catch (mysqli_sql_exception $e) {
+      // settings table missing or query failed; keep default poll id
+      $currentPoll = 1;
     }
 
-    $sql = "SELECT Naam,Status,Vragen,Antwoorden FROM `poll` WHERE Id='$currentPoll';";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        $vraagPoll = $row['Naam'];
-        $statusPoll = $row['Status'];
-        $VragenPoll = unserialize($row['Vragen']);
-        $AntwoordenPoll = unserialize($row['Antwoorden']);
+    try {
+      $sql = "SELECT Naam,Status,Vragen,Antwoorden FROM `poll` WHERE Id='$currentPoll' LIMIT 1;";
+      $result = $conn->query($sql);
+      if ($result && $result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          $vraagPoll = isset($row['Naam']) ? $row['Naam'] : '';
+          $statusPoll = isset($row['Status']) ? $row['Status'] : 0;
+          $VragenPoll = @unserialize($row['Vragen']);
+          if ($VragenPoll === false || !is_array($VragenPoll)) { $VragenPoll = []; }
+          $AntwoordenPoll = @unserialize($row['Antwoorden']);
+          if ($AntwoordenPoll === false || !is_array($AntwoordenPoll)) { $AntwoordenPoll = []; }
+        }
+      } else {
+        // no poll row found, defaults
+        $vraagPoll = '';
+        $statusPoll = 0;
+        $VragenPoll = [];
+        $AntwoordenPoll = [];
       }
+    } catch (mysqli_sql_exception $e) {
+      // poll table missing or query failed; set safe defaults
+      $vraagPoll = '';
+      $statusPoll = 0;
+      $VragenPoll = [];
+      $AntwoordenPoll = [];
     }
     $score = [0,0,0,0];
     if (!is_array($AntwoordenPoll)) { $AntwoordenPoll = []; }
