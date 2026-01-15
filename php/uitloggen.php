@@ -1,5 +1,7 @@
 <?php
-    session_start();
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
     include 'block.php';
     if(isset($_POST['uitloggen'])){
         $_SESSION["nu"] = "";
