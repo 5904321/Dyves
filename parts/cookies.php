@@ -1,6 +1,6 @@
 
 <?php
-  if(!$_COOKIE["cookies"] == true){
+  if(!isset($_COOKIE['cookies']) || $_COOKIE['cookies'] !== 'true'){
       echo "  <div class='cookie' id='cookie'>
           Dyves kan cookies gebruiken. Klik
           <span class='iphone'>

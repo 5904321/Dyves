@@ -1,5 +1,11 @@
 <?php
-    $nuOn = $_SESSION["nu"];
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    $nuOn = isset($_SESSION["nu"]) ? $_SESSION["nu"] : '';
+    $gebruikersnaam2_ = '';
+    $profielfoto2_ = '';
+    $gender2_ = 0;
     $sql = "SELECT Gebruikersnaam,ProfielFoto,Man FROM `notusers` WHERE UNIQ = '$nuOn';";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
@@ -9,7 +15,7 @@
             $gender2_ = $row['Man'];
         }
     }
-    if(strlen($profielfoto2_) <= 1){
+    if (empty((string)$profielfoto2_) || strlen((string)$profielfoto2_) <= 1){
         $liveFoto2 = "g".$gender2_.".jpg";
     }
     else{

@@ -4,7 +4,7 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
   session_start();
 }
 
-    $checkwachtwoord = $_SESSION["wachtwoordCheck"];
+    $checkwachtwoord = isset($_SESSION["wachtwoordCheck"]) ? $_SESSION["wachtwoordCheck"] : '';
   if($checkwachtwoord != "true"){
     echo "
     <form class='inlog iphone' action='' method='post' id='inlogForm'>
