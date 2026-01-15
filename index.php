@@ -45,10 +45,12 @@
         }
     }
 
-    error_reporting(0);
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
     session_start();
 
-    $current = $_SESSION["nu"];
+    $current = isset($_SESSION["nu"]) ? $_SESSION["nu"] : "";
     if(isset($_POST['Menu'])){
         $_SESSION['Waar'] = "hoofdmenu";
         reloadPost();
