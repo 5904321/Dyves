@@ -9,12 +9,14 @@
           </script>";
   }
 
-    // $currentPoll = 1;
-    $sql = "SELECT Poll FROM `settings` WHERE Id='1';";
-    $result = $conn->query($sql);
-    if ($result->num_rows > 0) {
+    // default poll id
+    $currentPoll = 1;
+    // try to read current poll id from settings table (defensive)
+    $sql = "SELECT Poll FROM `settings` WHERE Id='1' LIMIT 1;";
+    $result = @$conn->query($sql);
+    if ($result && $result->num_rows > 0) {
       while($row = $result->fetch_assoc()) {
-        $currentPoll = $row['Poll'];
+        $currentPoll = isset($row['Poll']) ? (int)$row['Poll'] : $currentPoll;
       }
     }
 
@@ -29,6 +31,7 @@
       }
     }
     $score = [0,0,0,0];
+    if (!is_array($AntwoordenPoll)) { $AntwoordenPoll = []; }
     for($i=0; $i<=count($AntwoordenPoll)-1; $i++){
       if($AntwoordenPoll[$i] == 0){
           $score[0] ++;
@@ -44,7 +47,11 @@
       }
     }
     $total = $score[0] + $score[1] + $score[2] + $score[3];
-    $procenten = [round($score[0]/$total * 100),round($score[1]/$total * 100),round($score[2]/$total * 100),round($score[3]/$total * 100)];
+    if ($total == 0) {
+      $procenten = [0,0,0,0];
+    } else {
+      $procenten = [round($score[0]/$total * 100),round($score[1]/$total * 100),round($score[2]/$total * 100),round($score[3]/$total * 100)];
+    }
  ?>
 
 <div class="poll border">

@@ -84,7 +84,7 @@
     </div>
 
     <?php
-      if($_SESSION["wachtwoordCheck"] == "true"){
+      if(isset($_SESSION["wachtwoordCheck"]) && $_SESSION["wachtwoordCheck"] == "true"){
      ?>
         <form class="header_div iphone uitlogg" id="profiel" method="post">
           <div class="uitlogimg">

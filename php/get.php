@@ -26,6 +26,20 @@
     $per = 0;
     $voted = '';
     $font = '';
+    // initialize arrays used by templates
+    $artikel = [];
+    $textArtikel = [];
+    $imgArtikel = [];
+    $labelArtikel = [];
+    $statusArtikel = [];
+    $datumArtikel = [];
+    $idArtikel = [];
+    $Labelartikel = [];
+    $LabeltextArtikel = [];
+    $LabelimgArtikel = [];
+    $LabelstatusArtikel = [];
+    $LabeldatumArtikel = [];
+    $LabelidArtikel = [];
 
     $sql = "SELECT Gebruikersnaam,Email,Geboortedatum,ProfielFoto,Achtergrond,Font,AanmeldTijd,Woonplaats,Voornaam,Achternaam,Man,AantalVrienden,Permisie,Voted FROM `notusers` WHERE UNIQ = '$current';";
     $result = $conn->query($sql);
@@ -124,14 +138,14 @@
         }
     }
 
-    $checkMelding = false;
-    $sql = "SELECT To_user FROM `friend_invite` WHERE User = '$current';";
+        $checkMelding = false;
+        $sql = "SELECT To_user FROM `friend_invite` WHERE User = '$current';";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while($row = $result->fetch_assoc()) {
             $checkmelding = unserialize($row['To_user']);
         }
-        if(strlen($checkmelding[0]) > 0){
+                if (is_array($checkmelding) && isset($checkmelding[0]) && strlen((string)$checkmelding[0]) > 0){
             echo "<style media='screen'>
                     .melding_{
                       color:#C9302C;
@@ -143,7 +157,7 @@
         }
     }
 
-    $label = $_SESSION['label'];
+        $label = isset($_SESSION['label']) ? $_SESSION['label'] : 'nieuws';
     $plus2 = 0;
     if($label == "nieuws"){
         $sql = "SELECT Artikel,Text_,Img,Status,Datum,Id FROM `artikels`;";
