@@ -2,6 +2,7 @@
     if (session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
+
   include 'connect.php';
   include 'block.php';
 
@@ -115,6 +116,8 @@
       $_SESSION['sumbmited'] = $ingevult;
       reloadPost();
   }
+
   $sumbmited = $_SESSION['sumbmited'];
   $foutMelding = $_SESSION['fout'];
  ?>
+ 
