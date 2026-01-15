@@ -5,9 +5,9 @@
       include 'connect.php';
       include 'block.php';
 
-      $username = $_POST['gebruiker'];  //krijgt de gebruikers naam input
-      $password = $_POST['wachtwoord']; //Krijgt de wachtwoord input
-      $button = $_POST['inlog_button']; //krijgt de button
+      $username = isset($_POST['gebruiker']) ? $_POST['gebruiker'] : '';
+      $password = isset($_POST['wachtwoord']) ? $_POST['wachtwoord'] : '';
+      $button = isset($_POST['inlog_button']) ? $_POST['inlog_button'] : null;
       $true = 0; //een tel voor het kijken of
 
       function updateIp($user,$conn){
