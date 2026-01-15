@@ -1,6 +1,10 @@
 
 <?php
-    if($_SESSION["wachtwoordCheck"] != "true"){
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    $checkwachtwoord = isset($_SESSION["wachtwoordCheck"]) ? $_SESSION["wachtwoordCheck"] : '';
+    if($checkwachtwoord != "true"){
       echo "
       <form class='aanmelden iphone' id='aanmeldVak' method='post'>
           <button type='submit' name='Aanmelden' class='aanmelden_button'>
@@ -12,7 +16,7 @@
         </div>
       </form>";
     }
-    elseif ($_SESSION["wachtwoordCheck"] == "false") {
+    elseif ($checkwachtwoord == "false") {
       echo "
        <form class='aanmelden iphone' id='aanmeldVak' method='post'>
           <button type='submit' name='Aanmelden'class='aanmelden_button'>
