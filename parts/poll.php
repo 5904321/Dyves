@@ -115,17 +115,21 @@
   <div class="space"></div>
   <span class="text2"><?php echo $vraagPoll; ?></span>
   <?php
-    for($i=0; $i<=3; $i++){
-      echo "<form class='procent' method='post'>
-              <div class='pol_info'>
-                <div class='procentages' style='width:$procenten[$i]%'></div>
-                <span class='blauw left'>$procenten[$i]%</span>
-                <button class='pollbutton underline' type='submit' name='SubmitPoll' value='$i'>
-                  $VragenPoll[$i]
-                </button>
-              </div>
-            </form>";
+    if(count($VragenPoll) > 0)
+    {
+        for($i=0; $i<=3; $i++){
+            echo "<form class='procent' method='post'>
+                    <div class='pol_info'>
+                      <div class='procentages' style='width:$procenten[$i]%'></div>
+                      <span class='blauw left'>$procenten[$i]%</span>
+                      <button class='pollbutton underline' type='submit' name='SubmitPoll' value='$i'>
+                        $VragenPoll[$i]
+                      </button>
+                    </div>
+                  </form>";
+        }
     }
+   
    ?>
   <div class="space"></div>
   <button class="inlog_ver bottom">
