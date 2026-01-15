@@ -6,6 +6,27 @@
     include 'connect.php';
     include 'block.php';
 
+    // ensure $current is available (index.php sets it, but be defensive)
+    if (!isset($current)) {
+        $current = isset($_SESSION['nu']) ? $_SESSION['nu'] : '';
+    }
+
+    // initialize variables to avoid undefined variable notices
+    $gebruikersnaam_ = '';
+    $email_ = '';
+    $geboortedatum_ = '';
+    $profielfoto_ = '';
+    $achtergrond_ = '';
+    $aanmeldtijd_ = '';
+    $woonplaats_ = '';
+    $voornaam_ = '';
+    $achternaam_ = '';
+    $gender_ = 0;
+    $aantalVrienden = 0;
+    $per = 0;
+    $voted = '';
+    $font = '';
+
     $sql = "SELECT Gebruikersnaam,Email,Geboortedatum,ProfielFoto,Achtergrond,Font,AanmeldTijd,Woonplaats,Voornaam,Achternaam,Man,AantalVrienden,Permisie,Voted FROM `notusers` WHERE UNIQ = '$current';";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
