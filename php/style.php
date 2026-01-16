@@ -56,6 +56,7 @@
     $t16 = ["black","rgb(255,255,255);border: 0.05vw solid gray;","black","#283E4A;","white","background:#F5F5F5;",];
 
     $kleuren = $$achtergrond_;
+    echo $font;
     echo "<link href='https://fonts.googleapis.com/css?family=$fonts[$font]' rel='stylesheet'>";
     echo "<style media='screen'>
             .profielkleur{

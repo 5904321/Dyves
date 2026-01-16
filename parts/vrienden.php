@@ -23,8 +23,10 @@
           while($row = $result->fetch_assoc()) {
               $vrienden = unserialize($row['Vrienden']);
           }
-          $aantal = count($vrienden);
-          $aantal2 =0;
+          
+          $aantal = is_array($vrienden) ? count($vrienden) : 0;
+          $aantal2 = 0;
+
           for($i=0; $i<=$aantal-1; $i++){
                 if(!count($vrienden) == 0 && !strlen($vrienden[0]) == 0){
                   $sql2 = "SELECT ProfielFoto,Man,Gebruikersnaam,AantalVrienden FROM `notusers` WHERE Gebruikersnaam = '$vrienden[$i]';"; /*pakt de opties uit de tabel*/

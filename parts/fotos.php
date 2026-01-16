@@ -29,7 +29,7 @@
   <div class="fotos profielkleur2">
     <div class="watProfiel tweev">Foto's & Video's</div>
     <?php
-      if(count($uncompressed) > 0 && strpos($uncompressed[0], $wie) !== false){
+      if((is_array($uncompressed) ? count($uncompressed) : 0) > 0 && strpos($uncompressed[0], $wie) !== false){
           for($i=0; $i<=count($uncompressed)-1; $i++){
               $tell ++;
               if($tell <= 5){
